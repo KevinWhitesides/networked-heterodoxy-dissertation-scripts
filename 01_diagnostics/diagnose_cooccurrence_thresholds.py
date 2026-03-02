@@ -1,5 +1,5 @@
 """
-binary_incidence_cooccurrence_threshold_diagnostic.py
+diagnose_cooccurrence_thresholds.py
 
 Purpose
 -------
