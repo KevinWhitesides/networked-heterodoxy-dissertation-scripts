@@ -1,14 +1,25 @@
-# 03_metrics
+# 03_similarity
 
-Scripts for computing structural and similarity measures derived from network or incidence data.
+Scripts for computing similarity measures derived from network or incidence data.
 
 These tools typically operate on **binary incidence matrices**
 (case × feature/trope), from which similarity measures or structural
 statistics are derived.
 
-## Analytical Focus
+These scripts form part of a broader toolkit for analyzing relationships within
+binary incidence datasets (case × feature matrices). The repository is organized
+into stages reflecting common analytical workflows:
 
-The scripts in this folder are designed to answer specific research
+- **similarity analysis** (this folder) identifies patterns of shared or divergent feature repertoires
+- **network construction** builds graphs from those relationships
+- **topological analysis** examines structural properties of those networks
+
+Individual scripts can be used independently, but they are also designed to work
+together as components of larger analytical pipelines.
+
+## Analytical Questions
+
+The scripts in this folder are designed to answer specific analytical
 questions about relationships within binary incidence datasets
 (case × feature/trope matrices).
 
@@ -93,6 +104,48 @@ The script:
    - a concise console summary
 
 This tool is especially useful for interpreting why two cases cluster together, differ sharply, or occupy unexpected positions within the broader similarity structure.
+
+---
+
+### 04_significant_zero_overlap.py
+
+Identifies **case pairs with completely non-overlapping feature repertoires**
+and evaluates whether those absences are statistically unusual under a
+**degree-preserving null model**.
+
+While the basic non-overlap script identifies pairs that share no features,
+this tool goes further by asking whether such absences are **more extreme
+than expected given the overall distribution of features across the dataset**.
+
+The script:
+
+1. Reads a binary incidence matrix from `.xlsx` or `.csv`.
+2. Optionally filters features by minimum global frequency.
+3. Optionally filters cases by minimum number of present features.
+4. Identifies all **observed zero-overlap case pairs**.
+5. Generates randomized datasets using a **Curveball degree-preserving null model**, which preserves the number of features associated with each case and the overall feature distribution.
+6. Estimates an **empirical probability** for each zero-overlap pair under the null model.
+7. Applies **Benjamini–Hochberg false discovery rate (FDR) correction**.
+8. Exports:
+
+   - a CSV listing all observed zero-overlap pairs and their significance metrics
+   - an `analysis_summary.txt` file documenting parameters and results of the run
+
+The output CSV includes:
+
+- the two cases forming each pair
+- feature counts for each case
+- the empirical probability of observing zero overlap (`p_emp`)
+- FDR significance flags (for example `sig_0.05` and `sig_0.01`)
+
+This tool helps distinguish between:
+
+- **incidental non-overlap** caused by sparse feature distributions, and  
+- **structurally meaningful absences** that are unlikely under the dataset’s overall structure.
+
+The resulting table can be used directly for analysis or supplied to
+network-building scripts to construct **absence networks** linking cases
+that exhibit statistically significant non-overlap.
 
 ---
 
