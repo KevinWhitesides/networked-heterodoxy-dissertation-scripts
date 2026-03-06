@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """
+01_diagnose_cooccurrence_thresholds.py
+
 Co-occurrence Threshold Diagnostic (Binary Incidence → One-Mode Projection)
 
 Given a binary incidence matrix (rows = cases; columns = tropes/features) where

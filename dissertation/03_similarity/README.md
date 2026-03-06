@@ -27,7 +27,7 @@ distinctiveness within cultural datasets.
 
 ## Current Scripts
 
-### jaccard_similarity_heatmap.py
+### 01_jaccard_similarity_heatmap.py
 
 Computes pairwise **Jaccard similarity** between cases based on shared feature/trope presence.
 
@@ -45,7 +45,7 @@ Jaccard similarity measures overlap in **feature repertoires** while ignoring sh
 
 ---
 
-### cluster_from_similarity_matrix.py
+### 02_cluster_from_similarity_matrix.py
 
 Performs **hierarchical clustering** on a similarity matrix (such as the output of the Jaccard script) in order to identify groups of cases with similar feature repertoires.
 
@@ -65,6 +65,34 @@ The script:
    - optional dendrogram visualization
 
 This script formalizes patterns visible in similarity heatmaps by producing explicit **cluster structures** and diagnostic summaries of cluster cohesion.
+
+---
+
+### 03_compare_case_pair_features.py
+
+Compares the feature repertoires of **two specific cases** and reports:
+
+- features unique to Case A
+- features shared by both cases
+- features unique to Case B
+
+This script functions as a **close-comparison tool** for moving from broad similarity patterns to specific feature-level interpretation.
+
+The script:
+
+1. Reads a binary incidence matrix from `.xlsx` or `.csv`.
+2. Identifies two user-specified cases.
+3. Optionally filters features by minimum frequency across the full dataset.
+4. Computes:
+   - features unique to Case A
+   - shared features
+   - features unique to Case B
+5. Exports:
+   - a three-column comparison CSV
+   - an optional Markdown report
+   - a concise console summary
+
+This tool is especially useful for interpreting why two cases cluster together, differ sharply, or occupy unexpected positions within the broader similarity structure.
 
 ---
 

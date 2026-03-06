@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-cluster_from_similarity_matrix.py
+02_cluster_from_similarity_matrix.py
 
 Given a square similarity matrix (case × case), this script:
 

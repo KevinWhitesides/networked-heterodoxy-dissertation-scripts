@@ -2,7 +2,7 @@
 
 This folder contains scripts for calibrating network construction parameters prior to graph generation.
 
-## diagnose_cooccurrence_thresholds.py
+## 01_diagnose_cooccurrence_thresholds.py
 
 ### Purpose
 

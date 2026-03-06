@@ -88,7 +88,7 @@ still exploring the resulting networks visually.
 
 ## Current Scripts
 
-### k_components_from_gexf.py
+### 01_k_components_from_gexf.py
 
 Computes **k-components** and **k-core numbers** from an existing network file.
 
@@ -110,6 +110,7 @@ The script:
    - a **summary table** listing all components
 
 The exported GEXF component graphs can be opened directly in Gephi for visualization, while accompanying CSV files provide tabular summaries of nodes and component structure.
+
 ---
 
 ## Data Assumptions

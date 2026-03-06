@@ -14,7 +14,7 @@ These scripts assume a cleaned “no metadata” input matrix unless otherwise s
 
 ## Scripts
 
-### build_one_mode_projection.py
+### 01_build_one_mode_projection.py
 
 #### Purpose
 
@@ -69,7 +69,7 @@ Multiple thresholded graphs can be produced in a single run.
 - Edge thresholding is applied per output graph.
 - This script is dataset-agnostic and was used across multiple case studies (2012 literature corpus, hip hop corpus).
 
-### build_bipartite_network.py
+### 02_build_bipartite_network.py
 
 #### Purpose
 

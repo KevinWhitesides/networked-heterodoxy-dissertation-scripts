@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-jaccard_similarity_heatmap.py
+01_jaccard_similarity_heatmap.py
 
 Compute a case×case Jaccard similarity matrix from a binary incidence matrix
 (case × feature/trope) stored in .xlsx or .csv, optionally filter to “shared”
