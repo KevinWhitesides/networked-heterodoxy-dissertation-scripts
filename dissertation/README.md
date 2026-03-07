@@ -1,8 +1,8 @@
 # Dissertation Resources: Networked Heterodoxy Tools
 
-This module contains scripts, workflows, and documentation used in the computational analysis for the dissertation:
+This module contains scripts, workflows, and documentation developed for computational analysis in the dissertation:
 
-*Networks of Heterodoxy: Shared Dissent and the Dynamics of Counter-Discourse.*
+*Networks of Heterodoxy: Shared Dissent and the Dynamics of Counter-Discourse* by Kevin Whitesides (2026), University of California, Santa Barbara.
 
 The tools support the analysis of **structured cultural datasets**, including binary incidence matrices and topic-model outputs, enabling the construction and analysis of co-occurrence networks, bipartite graphs, and related structures.
 
