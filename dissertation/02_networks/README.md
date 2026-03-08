@@ -6,11 +6,12 @@ Networks are generated either as:
 
 - **Projected one-mode networks** (feature × feature weighted co-occurrence)
 - **Bipartite incidence networks** (case × feature)
-- **Absence-derived networks** 
+- **Absence-derived networks**
   - one-mode case × case significant zero-overlap networks
   - bipartite case × feature networks of the retained subset
-- **Discourse-gradient networks**
-  - bipartite case × feature networks constructed from intermediary chains linking zero-overlap cases
+- **Gradient-derived networks**
+  - case-gradient networks (case → case mediated through shared features)
+  - feature-gradient networks (feature → feature mediated through shared cases)
 - **Topic-derived networks** (one-mode & bipartite)
 
 These scripts assume a cleaned “no metadata” and "no totals" input matrix unless otherwise specified.
@@ -159,7 +160,7 @@ Constructs network representations of **statistically significant zero-overlap r
 
 This script is designed to work downstream of the similarity analysis performed by:
 
-03_similarity/04_significant_zero_overlap.py
+03_similarity/04_significant_zero_case_overlap.py
 
 While that script identifies pairs of cases that share **no features and whose absence of overlap is unlikely under a degree-preserving null model**, the present script converts those results into network structures suitable for exploration and visualization.
 
@@ -197,7 +198,7 @@ analysis_summary.txt
 
 This script forms the **network construction stage** of the absence-analysis workflow:
 
-03_similarity/04_significant_zero_overlap.py
+03_similarity/04_significant_zero_case_overlap.py
 ↓
 02_networks/03_build_absence_networks.py
 
@@ -208,15 +209,17 @@ The present script converts those results into network structures that allow the
 
 ## 04_build_discourse_gradient_network.py
 
-Constructs network representations of **discourse gradients** linking cases that otherwise exhibit zero direct overlap.
+Constructs network representations of **case gradients** linking cases that otherwise exhibit zero direct overlap.
 
 This script is designed to work downstream of the gradient identification stage performed by:
 
-03_similarity/05_find_discourse_gradients.py
+
+03_similarity/05_find_case_gradients.py
+
 
 While the similarity script identifies intermediary chains connecting zero-overlap cases, the present script converts a selected chain into network and similarity visualizations suitable for interpretation and exploration.
 
-A discourse gradient is a sequence such as:
+A case gradient is a sequence such as:
 
 A → B → C → D → E
 
@@ -230,7 +233,7 @@ where:
 
 The script constructs a **bipartite case × feature network** from the selected gradient chain.
 
-Features are filtered to those appearing in at least a configurable number of cases within the chain (default: **two**), reducing noise while preserving shared conceptual structure. Two is generally recommended as it eliminates all features that only appear in a single case and preserves all features shared by at least two cases and thus showing how disconnected cases are conceptually bridged by mediating ones.
+Features are filtered to those appearing in at least a configurable number of cases within the chain (default: **two**), reducing noise while preserving shared conceptual structure.
 
 Book titles are automatically shortened to their **main titles (text before any colon)** when generating node labels, ensuring that graphs remain readable and node IDs are easier to reference within Gephi filters.
 
@@ -242,8 +245,6 @@ The script also produces similarity diagnostics for the selected gradient:
 - ranked **pairwise similarity table**
 - **heatmap visualization**
 
-These outputs provide quick confirmation that the chain behaves as expected, with similarity gradually shifting from one endpoint to the other.
-
 ### Outputs
 
 gradient_bipartite.gexf
@@ -254,69 +255,131 @@ analysis_summary.txt
 
 ### Analytical role
 
-This script forms the **network construction stage** of the discourse-gradient workflow:
+This script forms the **network construction stage** of the case-gradient workflow:
 
-03_similarity/05_find_discourse_gradients.py
+03_similarity/05_find_case_gradients.py
 ↓
 02_networks/04_build_discourse_gradient_network.py
 
 The first script identifies candidate intermediary chains connecting disjoint cases.  
 The present script converts those chains into graph structures that allow the mediated discourse relationships to be explored visually.
 
-The resulting bipartite graph can be opened directly in **Gephi** or other network analysis software for further exploration.
+---
 
-Endpoint comparisons can be visualized in Gephi using the union-of-ego-networks filter (see instructions below).
+## 05_build_feature_absence_network.py
 
-## Visualizing Gradient Endpoints in Gephi
+Constructs network representations of **statistically significant zero-overlap relationships between features**.
 
-When exploring a discourse gradient network in **Gephi**, it is often useful to isolate the
-two endpoint cases (A and E) in order to emphasize that they share **no direct overlap**.
+This script is designed to work downstream of the similarity analysis performed by:
 
-Rather than generating a separate graph, this can be done directly within Gephi by filtering
-the existing network.
+03_similarity/06_significant_zero_feature_overlap.py
 
-### Procedure
+While that script identifies feature pairs that never co-occur in the same case and evaluates whether those absences are unlikely under a degree-preserving null model, the present script converts those results into network structures suitable for exploration and visualization.
 
-1. Open the gradient `.gexf` network in **Gephi**.
+The script produces two complementary graphs.
 
-2. In the **Filters** panel:
+### 1. Feature absence graph (feature × feature)
 
-   - Open **Operator → UNION**
-   - Drag **UNION** into the **Queries** workspace.
+- Nodes represent features (tropes)
+- Edges represent **statistically significant zero-overlap relationships**
 
-3. Under the UNION operator:
+This graph provides a structural overview of how feature repertoires diverge across the dataset.
 
-   - Drag **Topology → Ego Network** into the UNION box.
-   - Drag a **second Ego Network** into the UNION box.
+### 2. Bipartite graph of the retained subset (case × feature)
 
-4. Configure the two ego networks:
+- Nodes represent both cases and features
+- Edges represent feature presence in cases
 
-   **First Ego Network**
-   - `Node ID`: *Book A*
-   - `Depth`: `1`
+Only features participating meaningfully in the absence structure are retained.
 
-   **Second Ego Network**
-   - `Node ID`: *Book E*
-   - `Depth`: `1`
+Features must have at least a configurable number of significant zero-overlap neighbors (default: **two**).
 
-5. Click **Filter**.
+Cases are retained if they contain at least a configurable number of those retained features (default: **one**).
 
-Gephi will display the **union of the two ego networks**, showing each endpoint and the
-features connected to it. Because the endpoints share no features, the resulting graph
-will appear as two disconnected clusters.
+This graph reveals the **cases that support the mutually exclusive feature regions**, allowing inspection of the corpus structure underlying the absence network.
 
-### Why this works
+### Outputs
 
-Depth-1 ego networks include:
+feature_absence_graph_sig.gexf  
+feature_absence_bipartite.gexf  
+analysis_summary.txt
 
-- the selected node
-- all nodes directly connected to it
+### Analytical role
 
-Applying **UNION** to two ego networks therefore shows the **complete feature repertoires
-of both endpoint cases**, making their lack of overlap immediately visible.
+This script forms the **network construction stage** of the feature-absence workflow:
 
-This approach preserves the **layout, colors, and positions** of the full gradient graph,
-allowing the filtered view to function as a focused illustration of endpoint divergence.
+03_similarity/06_significant_zero_feature_overlap.py  
+↓  
+02_networks/05_build_feature_absence_network.py
+
+The first script identifies statistically meaningful feature disjunctions.  
+The present script converts those results into graph structures that allow the retained feature regions and their supporting cases to be explored visually.
+
+---
+
+## 06_build_feature_gradient_networks.py
+
+Constructs network representations of **feature gradients** linking features that never directly co-occur.
+
+This script is designed to work downstream of the feature-gradient identification stage performed by:
+
+03_similarity/07_find_feature_gradients.py
+
+While the similarity script identifies intermediary chains connecting non-co-occurring features, the present script converts a selected feature gradient into network and similarity visualizations suitable for interpretation.
+
+A feature gradient is a sequence such as:
+
+Feature A → Feature B → Feature C → Feature D → Feature E
+
+where:
+
+- Feature A and Feature E **never occur in the same case**
+- intermediate features share overlapping case distributions
+- the chain forms a **mediated pathway across feature space**
+
+### Networks Constructed
+
+The script constructs a **bipartite feature × case network** from the selected gradient chain.
+
+In this network:
+
+- **features are the focal nodes**
+- **cases are the supporting nodes**
+
+Edges represent the presence of a feature within a case.
+
+By default, cases must contain **at least two of the gradient features** (`MIN_GRADIENT_FEATURES_PER_CASE = 2`) in order to be retained. This removes cases that only contain a single feature and therefore do not help mediate the gradient.
+
+Case titles may optionally be shortened automatically through configuration settings in the script to improve graph readability.
+
+### Additional Analytical Outputs
+
+The script also produces diagnostic similarity outputs for the selected feature gradient:
+
+- subset **feature × feature Jaccard matrix**
+- ranked **pairwise similarity table**
+- **heatmap visualization**
+
+These outputs provide a compact summary of how strongly the gradient features overlap in their case distributions.
+
+### Outputs
+
+feature_gradient_bipartite.gexf  
+feature_gradient_jaccard_subset.csv  
+feature_gradient_jaccard_pairs_ranked.csv  
+feature_gradient_jaccard_heatmap.png  
+analysis_summary.txt
+
+### Analytical role
+
+This script forms the **network construction stage** of the feature-gradient workflow:
+
+03_similarity/07_find_feature_gradients.py  
+↓  
+02_networks/06_build_feature_gradient_networks.py
+
+The first script identifies intermediary feature chains connecting non-co-occurring features.  
+The present script converts those chains into graph structures that reveal **the cases that mediate those conceptual connections**.
 
 ---
 

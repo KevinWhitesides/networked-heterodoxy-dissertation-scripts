@@ -319,6 +319,10 @@ This tool is useful for identifying **indirect conceptual pathways** linking
 features that never co-occur directly, revealing chains of intermediary
 features across the broader discourse field.
 
+The resulting feature gradients can be visualized using:
+
+02_networks/06_build_feature_gradient_networks.py
+
 ---
 
 ## Relationship to Other Analyses

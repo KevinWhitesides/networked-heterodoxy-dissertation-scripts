@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-03_build_absence_networks.py
+03_build_case_absence_networks.py
 
 Build network outputs from a master zero-overlap significance table produced by
-03_similarity/04_significant_zero_overlap.py.
+03_similarity/04_significant_zero_case_overlap.py.
 
 This script creates:
 
@@ -21,7 +21,7 @@ This script creates:
 
 Typical workflow
 ----------------
-1) Run the significance script (04_significant_zero_overlap.py) first to produce:
+1) Run the significance script (04_significant_zero_case_overlap.py) first to produce:
       zero_overlap_pairs_with_significance.csv
 2) Run this script to build network representations from that table.
 
