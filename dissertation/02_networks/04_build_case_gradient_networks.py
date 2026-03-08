@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-04_build_gradient_networks.py
+04_build_case_gradient_networks.py
 
 Build network and diagnostic outputs for a selected discourse gradient.
 

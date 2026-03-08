@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-05_find_discourse_gradients.py
+05_find_case_gradients.py
 
-Find discourse gradients between zero-overlap endpoint pairs using an existing
+Find discourse gradients between zero-overlap case endpoint pairs using an existing
 zero-overlap table, Jaccard similarity matrix, and original incidence matrix.
 
 A discourse gradient is a chain of cases:
@@ -58,7 +58,7 @@ Search modes
 
 Outputs
 -------
-1) discourse_gradients.csv
+1) case_gradients.csv
    One row per retained chain, with endpoint pair, chain members, adjacent
    similarities/intersections, and score fields.
 
@@ -123,7 +123,7 @@ EPS = 1e-9
 
 # Output
 OUTPUT_DIR = Path(".")
-OUT_CSV = "discourse_gradients.csv"
+OUT_CSV = "case_gradients.csv"
 OUT_SUMMARY = "analysis_summary.txt"
 
 
@@ -617,16 +617,16 @@ def main() -> None:
         empty_df.to_csv(out_csv_path, index=False, encoding="utf-8")
 
         with open(out_summary_path, "w", encoding="utf-8") as f:
-            f.write("=== Discourse Gradient Search Summary ===\n\n")
+            f.write("=== Case Gradient Search Summary ===\n\n")
             f.write(f"Run timestamp: {run_timestamp}\n")
-            f.write("No discourse gradients were found under the current settings.\n\n")
+            f.write("No case gradients were found under the current settings.\n\n")
             f.write("Inputs\n")
             f.write("------\n")
             f.write(f"Zero-overlap CSV: {ZERO_OVERLAP_CSV}\n")
             f.write(f"Jaccard CSV: {JACCARD_CSV}\n")
             f.write(f"Incidence matrix: {INCIDENCE_PATH}\n")
 
-        print("No discourse gradients found under the current settings.")
+        print("No case gradients found under the current settings.")
         print(f"Wrote empty CSV: {out_csv_path}")
         print(f"Wrote summary:   {out_summary_path}")
         return
@@ -650,7 +650,7 @@ def main() -> None:
 
     # Summary
     with open(out_summary_path, "w", encoding="utf-8") as f:
-        f.write("=== Discourse Gradient Search Summary ===\n\n")
+        f.write("=== Case Gradient Search Summary ===\n\n")
         f.write(f"Run timestamp: {run_timestamp}\n\n")
 
         f.write("Inputs\n")
@@ -707,7 +707,7 @@ def main() -> None:
         f.write(f"{OUT_CSV}\n")
         f.write(f"{OUT_SUMMARY}\n")
 
-    print("[✓] Discourse gradient search complete.")
+    print("[✓] Case gradient search complete.")
     print(f"    Endpoint mode:      {ENDPOINT_MODE}")
     print(f"    Search mode:        {SEARCH_MODE}")
     print(f"    Endpoint pairs:     {len(endpoint_pairs)}")
