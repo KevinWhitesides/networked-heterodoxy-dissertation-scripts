@@ -4,7 +4,8 @@ This module contains scripts, workflows, and documentation developed for computa
 
 *Networks of Heterodoxy: Shared Dissent and the Dynamics of Counter-Discourse* by Kevin Whitesides (2026), University of California, Santa Barbara.
 
-The tools support the analysis of **structured cultural datasets**, including binary incidence matrices and topic-model outputs, enabling the construction and analysis of co-occurrence networks, bipartite graphs, and related structures.
+This toolkit analyzes the relational structure of cultural datasets represented as binary case × feature incidence matrices.
+It identifies patterns of shared repertoires (similarity), structural disjunctions (absence), and mediated pathways (gradients) between cases and features.
 
 Scripts are organized **by methodological task rather than dataset**, allowing them to be reused across multiple case studies.
 
@@ -29,10 +30,19 @@ Scripts are organized **by methodological task rather than dataset**, allowing t
 
 ---
 
+## Toolkit Workflows
+
+The diagram below illustrates the analytical workflows supported by the Networked Heterodoxy toolkit.
+
+[![Networked Heterodoxy Toolkit Workflows](workflows/networked_heterodoxy_workflows.png)](workflows/networked_heterodoxy_workflows.png)
+
+---
+
 ## Glossary
 
 The scripts in this repository analyze patterns of shared and divergent **features within cultural datasets**.  
-The toolkit is designed to identify similarity, absence, mediation, and structural organization across collections of cultural artifacts such as books, songs, documents, or other textual sources.
+The toolkit is designed to map relational structure--including similarity, structural absence, and mediated gradients--across collections of cultural artifacts such as books, songs, documents, or other textual sources.
+Together these analyses allow researchers to map clusters, boundaries, and conceptual pathways within discourse fields.
 
 The terms below describe the core analytical concepts used throughout the repository.
 
